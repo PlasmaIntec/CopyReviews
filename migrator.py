@@ -78,9 +78,9 @@ def write_review(review):
 		print('MISSING', e)
 	crawler.close()
 
-def write_reviews(reviews):
+def write_reviews(url, reviews):
 	crawler = Crawler()
-	crawler.get("https://opticats.com")
+	crawler.get(url)
 	assert "Fall Animal Costumes" in crawler.title, "TITLE INCORRECT"
 	for review in reviews:
 		try:
