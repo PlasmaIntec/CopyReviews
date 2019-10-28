@@ -7,13 +7,26 @@ import selenium.webdriver.support.ui as ui
 class Crawler:
 	def __init__(self):
 		options = webdriver.ChromeOptions()
-		options.add_argument('headless')
+		options.add_experimental_option("detach", True)
+		# options.add_argument('headless')
 		driver = webdriver.Chrome(options=options)
 		driver.set_window_position(0, 0)
 		driver.set_window_size(730, 1600)
 		wait = ui.WebDriverWait(driver, 3)
 		self.driver = driver
 		self.wait = wait
+
+	def closeExtraTabs(self):
+		if len(self.driver.window_handles) == 1:
+			return
+		this_window = self.driver.window_handles[1]
+		self.driver.switch_to_window(this_window)
+		self.driver.close()
+		original_window = self.driver.window_handles[0]
+		self.driver.switch_to_window(original_window)
+
+	def getTitle(self):
+		return self.driver.title
 
 	def get(self, url):
 		self.driver.get(url)
